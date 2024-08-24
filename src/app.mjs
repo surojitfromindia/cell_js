@@ -58,7 +58,7 @@ const cells = {
     tokenized_formula: [],
     dependents: [],
   },
-  A3 : {
+  A3: {
     value: 52,
     formula: 'A2+10',
     tokenized_formula: [],
@@ -69,24 +69,36 @@ const cells = {
     formula: '88 + 107',
     tokenized_formula: [],
     dependents: [],
-  }
+  },
+  A5: {
+    value: 107,
+    formula: 'A3+A1',
+    tokenized_formula: [],
+    dependents: [],
+  },
+
 
 
 };
 
-const rPrinR = (cells, current_node_address, already_visited)=>{
+const rPrinR = (cells, current_node_address, already_visited) => {
   const node = cells[current_node_address];
+  // if we have already visisted the node return from the recursion
+  // in that branch
+  if (already_visited.has(current_node_address)) {
+    return;
+  }
   already_visited.add(current_node_address)
-  console.log(current_node_address,"CN",node?.formula);
-  if(node.dependents.length > 0){
-    node.dependents.forEach(dp=> rPrinR(cells,dp,already_visited))
+  console.log(current_node_address, "CN", node?.formula);
+  if (node.dependents.length > 0) {
+    node.dependents.forEach(dp => rPrinR(cells, dp, already_visited))
   }
 }
 
-const cells2 =  initialDependents(cells);
-console.log("ce2",cells2);
+const cells2 = initialDependents(cells);
+console.log("ce2", cells2);
 
-rPrinR(cells2,"A1",new Set())
+rPrinR(cells2, "A1", new Set())
 
 
 export { tokenizeFormula, groupTokens };
